@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="120dp"
+    android:orientation="vertical"
+    android:background="@color/cardview_shadow_start_color">
+
+    <TextView
+        android:id="@+id/gride_id"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="grid id "
+        android:textColor="#000"
+      />
+    <ImageView
+        android:id="@+id/grid_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_down"/> >
+
+    <TextView
+        android:id="@+id/grid_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name"
+        android:textColor="#000"
+        >
+    </TextView>
+
+</LinearLayout>
