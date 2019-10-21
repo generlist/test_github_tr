@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MenuValidateTest</string>
     <string name="menu_test">Menu Test</string>
+    <string name="serverType">ServerType</string>
     <string name="languageCode">languageCode</string>
     <string name="confirm">확인</string>
     <string name="version">버전</string>
