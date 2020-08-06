@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="menuvalidation_line/app" />
+      <module fileurl="file://$PROJECT_DIR$/menuvalidation_line.iml" filepath="$PROJECT_DIR$/menuvalidation_line.iml" group="menuvalidation_line" />
+      <module fileurl="file://$PROJECT_DIR$/app/menuvalidation_line-app.iml" filepath="$PROJECT_DIR$/app/menuvalidation_line-app.iml" group="menuvalidation_line/app" />
+    </modules>
+  </component>
+</project>
