@@ -1,0 +1,47 @@
+
+l
+java:S1104?"VMake serverName a static final constant or non-public and provide accessors if needed.(€øŒÉ
+P
+java:S1118":Add a private constructor to hide the implicit public one.(Ö±€İ
+u
+java:S3008H"ZRename this field "serverType_LIST" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ­çüÿÿÿÿ
+w
+java:S1104'"\Make DEVICE_ITEM_LIST a static final constant or non-public and provide accessors if needed.(›Ôºëùÿÿÿÿ
+m
+java:S1104"PMake name a static final constant or non-public and provide accessors if needed.( şÍ¾8¢Ô§ò».
+Q
+java:S1444'"6Make this "public static DEVICE_ITEM_LIST" field final(›Ôºëùÿÿÿÿ
+m
+java:S1104."RMake region a static final constant or non-public and provide accessors if needed.(º¯¤“ÿÿÿÿÿ
+o
+java:S1104"YMake Language_LIST a static final constant or non-public and provide accessors if needed.(‹Ø›­
+v
+java:S1104H"[Make serverType_LIST a static final constant or non-public and provide accessors if needed.(Ğ­çüÿÿÿÿ
+g
+java:S1104"QMake title a static final constant or non-public and provide accessors if needed.(Å¬õ
+g
+java:S1104-"QMake title a static final constant or non-public and provide accessors if needed.(Å¬õ
+8
+java:S2386H"Make this member "protected".(Ğ­çüÿÿÿÿ
+P
+java:S1444H"5Make this "public static serverType_LIST" field final(Ğ­çüÿÿÿÿ
+3
+java:S2386"Make this member "protected".(‹Ø›­
+8
+java:S2386'"Make this member "protected".(›Ôºëùÿÿÿÿ
+n
+java:S3008"XRename this field "Language_LIST" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹Ø›­
+s
+java:S1104"XMake languageCode a static final constant or non-public and provide accessors if needed.(ß³‚şÿÿÿÿ
+v
+java:S3008'"[Rename this field "DEVICE_ITEM_LIST" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›Ôºëùÿÿÿÿ
+q
+java:S1104>"VMake serverType a static final constant or non-public and provide accessors if needed.(­É§‹üÿÿÿÿ
+8
+java:S23867"Make this member "protected".(…¬Ó£úÿÿÿÿ
+I
+java:S1444"3Make this "public static Language_LIST" field final(‹Ø›­
+g
+java:S1104"QMake title a static final constant or non-public and provide accessors if needed.(Å¬õ
+h
+java:S1104"RMake device a static final constant or non-public and provide accessors if needed.(ÆœĞ¹
