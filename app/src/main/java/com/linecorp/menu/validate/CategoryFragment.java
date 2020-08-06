@@ -22,6 +22,7 @@ public class CategoryFragment extends Fragment {
     private CategoryListModel categoryListModel;
     private JsonModelList<DataModel> dataModel;
     private String deviceType;
+    private String testMenuType;
 
     public CategoryFragment(CategoryListModel categoryListModel, JsonModelList<DataModel> dataModel, String deviceType) {
         this.categoryListModel =categoryListModel;
