@@ -1,9 +1,0 @@
-
-Okotlin:S1144¹"1Remove this unused private "resetControl" method.(Ç¬æÿÿÿÿÿÿ
-okotlin:S3776+"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(¶Á»¬şÿÿÿÿ
-qkotlin:S1186="ZAdd a nested comment explaining why this function is empty or complete the implementation.(€Äçn
-Fkotlin:S1066G".Merge this "if" statement with the nested one.(ŸÍ„„
-@kotlin:S108I")Either remove or fill this block of code.(Ïî¤ş
-wkotlin:S1186Z"ZAdd a nested comment explaining why this function is empty or complete the implementation.(•‡Áñùÿÿÿÿ
-skotlin:S1186"ZAdd a nested comment explaining why this function is empty or complete the implementation.(¸ï¸²
-skotlin:S1186”"ZAdd a nested comment explaining why this function is empty or complete the implementation.(ˆº’

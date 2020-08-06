@@ -1,13 +1,0 @@
-
-l
-java:S1104"VMake serverName a static final constant or non-public and provide accessors if needed.(€øŒÉ
-s
-java:S1104	"XMake languageCode a static final constant or non-public and provide accessors if needed.(ß³‚şÿÿÿÿ
-h
-java:S1104
-"RMake device a static final constant or non-public and provide accessors if needed.(ÆœĞ¹
-m
-java:S1104"RMake region a static final constant or non-public and provide accessors if needed.(º¯¤“ÿÿÿÿÿ
-t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ìªâêúÿÿÿÿ
-o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(áš„‡
-t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Å…èúÿÿÿÿ
