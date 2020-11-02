@@ -42,6 +42,6 @@ dependencies {
 }
 task printVersion{
     doLast {
-        print android.defaultConfig.versionName + '-' + android.defaultConfig.versionCode
+        print android.defaultConfig.versionName
     }
 }
