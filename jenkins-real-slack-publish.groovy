@@ -20,8 +20,7 @@ def appVersion() {
 
         }
     }catch(e){
-        manager.listener.logger.println("eeeee() =${e}")
-        //currentBuild.result = 'FAILURE'
+        manager.listener.logger.println("error =${e}")
         throw e
     }
 
@@ -35,10 +34,9 @@ def notifySlack(text, channel, blocks) {
         def slackURL = 'https://hooks.slack.com/services/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'
         def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
         def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, blocks: blocks])
-        currentBuild.result = 'FAILURE'
 
         def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
-
+        currentBuild.result = 'FAILURE'
         manager.listener.logger.println("cmd=$cmd")
 
         cmd.execute().with {
@@ -55,7 +53,8 @@ def notifySlack(text, channel, blocks) {
 
     } catch (e) {
         manager.listener.logger.println("kkkkkk() =${e}")
-        manager.currentBuild.result = 'FAILURE'
+        manager.currentBuild.result = 'ABORTED'
+        error('Stopping early…')
         throw e
     } finally {
        // currentBuild.result = 'FAILURE'
