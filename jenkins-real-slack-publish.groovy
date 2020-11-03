@@ -117,18 +117,17 @@ def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/super-admin/latest|수퍼어드민 다운로드>*"]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/hms/latest|앱 갤러리용 다운로드>*"]]
 ]
-//        [title: ":cry_face: ${getJobName()}, build #${getJobBuildNumber()}", title_link: "${getBuildUrl()}", color: "danger", text: "${getBuildResult()}\n${getGitAuthor()}",
-//         "mrkdwn_in": ["fields"],fields: [[title: "Branch", value: "${getBranch()}", short: true], [title: "Last Commit", value: "${getLastCommitMessage()}", short: false]]
-//        ]
+
 def failNotification = [
 
 ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINETV 개발 신현붕 입니다."]],
 ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP ${appVersion()} 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
 ["type": "divider"],
-["type": "section", "text": ["type": "mrkdwn", "text": "[세부정보]"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "build Result : ${getBuildResult()} , jobName : ${getJobName()}, build : #${getJobBuildNumber()}"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "*<${getBuildUrl()}|Build Url>*"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "author : ${getGitAuthor()} , branch : ${getBranch()} ,Last Commit : ${getLastCommitMessage()}"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "**[Build 정보]"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : ${getBuildResult()} \n JobName : ${getJobName()} \n Build Number : #${getJobBuildNumber()}"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build Url 바로 가기>*"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "**[Repository 정보]"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "author : ${getGitAuthor()}\n branch : ${getBranch()} \n Last Commit : ${getLastCommitMessage()}"]],
 
 ]
 try {
