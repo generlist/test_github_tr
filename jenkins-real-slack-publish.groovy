@@ -1,10 +1,11 @@
 
 import groovy.json.JsonOutput
 import jenkins.model.Jenkins
-
-def slackNotificationChannel = 'android-app-release'
-
 //앱 버전을 가져온다.
+
+ final String slackNotificationChannel = 'android-app-release'
+
+
 def appVersion() {
     try {
         def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
@@ -27,7 +28,7 @@ def appVersion() {
 
         }
     }catch(e){
-        manager.listener.logger.println("appVersion () error =${e}")
+        manager.listener.logger.println("appVersion() error =${e}")
         failNotifySlack("Real 빌드 실패",slackNotificationChannel,[])
         Thread.getAllStackTraces().keySet().each() {
             t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
@@ -36,6 +37,7 @@ def appVersion() {
     }
 
 }
+
 
 
 def notifySlack(text, channel, blocks) {
