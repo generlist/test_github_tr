@@ -53,10 +53,11 @@ def notifySlack(text, channel, blocks) {
         }
 
     } catch (e) {
-        currentBuild.result = 'FAILURE'
+        manager.listener.logger.println("kkkkkk() =${e}")
+      //  currentBuild.result = 'FAILURE'
         throw e
     } finally {
-        currentBuild.result = 'FAILURE'
+       // currentBuild.result = 'FAILURE'
     }
 }
 
