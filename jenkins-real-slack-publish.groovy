@@ -41,6 +41,8 @@ def notifySlack(text, channel, blocks) {
         manager.listener.logger.println("error=$error")
         manager.listener.logger.println("output=$output")
         manager.listener.logger.println("code=${it.exitValue()}")
+        def result = manager.build.result
+        manager.listener.logger.println "And the result is: ${result}"
     }
 
 }
