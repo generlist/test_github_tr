@@ -2,11 +2,13 @@
 import groovy.json.JsonOutput
 import groovy.transform.Field
 
-//앱 버전을 가져온다.
 
 @Field final String slackNotificationChannel = 'android-app-release'
 @Field final String slackURL = 'https://hooks.slack.com/services/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'
 @Field final String jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+@Field final String failTitle = 'LINE TV Real TV'
+
+
 
 @Field def failErrorNotification = [
         [
@@ -104,7 +106,7 @@ def appVersion() {
         }
     }catch(e){
         manager.listener.logger.println("appVersion() error = ${e}")
-        failNotifySlack("Real 빌드 실패 appVersion() ",slackNotificationChannel, failErrorNotification)
+        failNotifySlack("${failTitle} appVersion() " ,slackNotificationChannel, failErrorNotification)
         Thread.getAllStackTraces().keySet().each() {
             t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
         }
@@ -183,7 +185,7 @@ def notifySlack(text, channel, blocks) {
 
     } catch (e) {
         manager.listener.logger.println("notifySlack() =${e}")
-        failNotifySlack("Real 빌드 실패 notifySlack() ",slackNotificationChannel,failErrorNotification)
+        failNotifySlack("${failTitle} notifySlack() ",slackNotificationChannel,failErrorNotification)
         Thread.getAllStackTraces().keySet().each() {
             t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
         }
@@ -203,14 +205,14 @@ try {
 
 }  catch (hudson.AbortException ae) {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
-    failNotifySlack("Real 빌드 실패",slackNotificationChannel,failErrorNotification)
+    failNotifySlack("${failTitle} ",slackNotificationChannel,failErrorNotification)
     Thread.getAllStackTraces().keySet().each() {
         t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
     }
 
 } catch (e) {
     manager.listener.logger.println "[Fail StackTrace]: ${e}"
-    failNotifySlack("Real 빌드 실패",slackNotificationChannel,failErrorNotification)
+    failNotifySlack("${failTitle} notifySlack()",slackNotificationChannel,failErrorNotification)
     Thread.getAllStackTraces().keySet().each() {
         t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
     }
