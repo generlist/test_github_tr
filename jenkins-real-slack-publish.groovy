@@ -55,6 +55,8 @@ def getGitAuthor = {
         def error = new StringWriter()
         it.waitForProcessOutput(output, error)
 
+        manager.listener.logger.println "output1111: ${output}"
+
         def authorCmd = ['/bin/sh', '-c', "git --no-pager show -s --format='%an' ${output}"]
         authorCmd.execute().with {
             def author = new StringWriter()
