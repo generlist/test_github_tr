@@ -20,7 +20,7 @@ import groovy.transform.Field
 
         ]
 ]
-def getGitAuthor = {
+@Field def getGitAuthor = {
     def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
     def cmd = ['/bin/sh', '-c', "cd  ${workspacePath} && git rev-parse HEAD"]
     cmd.execute().with {
