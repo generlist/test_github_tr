@@ -84,10 +84,10 @@ def getBuildResult(){
 }
 def getAppVersion() {
     try {
-        def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
-        def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
-//        def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
-//        def versionNameCmd = ['/bin/sh', '-c', "cd  ${workspacePath} &&  ./gradlew -q printVersion"]
+//        def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
+//        def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
+        def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
+        def versionNameCmd = ['/bin/sh', '-c', "cd  ${workspacePath} &&  ./gradlew -q printVersion"]
 
         manager.listener.logger.println("workspacePath=$workspacePath")
         versionNameCmd.execute().with {
