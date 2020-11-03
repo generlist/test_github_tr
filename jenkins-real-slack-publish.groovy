@@ -157,16 +157,16 @@ try {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
     //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     manager.listener.logger.println("kkkkkk() =${e}")
-    Jenkins.instance.getItemByFullName("${this.getJobName()}")
+    Jenkins.instance.getItemByFullName("${getJobName()}"+"/${getJobNumbers()}")
             .getBuildByNumber(getJobNumbers())
-            .finish(hudson.model.Result.ABORTED, new java.io.IOException("Aborting build"));
+            .finish(hudson.model.Result.ABORTED, ae);
 } catch (e) {
     manager.listener.logger.println "[Fail StackTrace]: ${e}"
     //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     manager.listener.logger.println("kkkkkk() =${e}")
-    Jenkins.instance.getItemByFullName("${this.getJobName()}")
+    Jenkins.instance.getItemByFullName("${getJobName()}"+"/${getJobNumbers()}")
             .getBuildByNumber(getJobNumbers())
-            .finish(hudson.model.Result.ABORTED, new java.io.IOException("Aborting build"));
+            .finish(hudson.model.Result.ABORTED, e);
 
 }
 
