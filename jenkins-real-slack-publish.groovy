@@ -81,7 +81,7 @@ def getLastCommitMessage = {
 
 }
 def jobName(){
-    def jobName = "${env.JOB_NAME}"
+    def jobName = manager.build.getEnvVars()["JOB_NAME"]
 
     // Strip the branch name out of the job name (ex: "Job Name/branch1" -> "Job Name")
     jobName = jobName.getAt(0..(jobName.indexOf('/') - 1))
