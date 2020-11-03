@@ -124,7 +124,8 @@ def failNotification = [
         ]
 ]
 try {
-    if(getBuildResult() == "SUCCESS"){
+   def result= "${getBuildResult()}"
+    if(result == "SUCCESS"){
         notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
     }else{
         notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
