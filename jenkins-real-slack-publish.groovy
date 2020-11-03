@@ -5,7 +5,56 @@ import groovy.transform.Field
 //앱 버전을 가져온다.
 
 @Field final String slackNotificationChannel = 'android-app-release'
+@Field def failErrorNotification = [
+        [
+                fallback: "Plain-text summary of the attachment.",
+                color: "#2eb886",
+                pretext: "Optional text that appears above the attachment block",
+                author_name: "Bobby Tables",
+                author_link: "http://flickr.com/bobby/",
+                author_icon: "http://flickr.com/icons/bobby.jpg",
+                title: "Slack API Documentation",
+                title_link: "https://api.slack.com/",
+                text: "Optional text that appears within the attachment",
+                fields: [
+                        [
+                                title: "Priority",
+                                value: "High",
+                                short: false
+                        ]
+                ],
+                image_url: "http://my-website.com/path/to/image.jpg",
+                thumb_url: "http://example.com/path/to/thumb.png",
+                footer: "Slack API",
+                footer_icon: "https://platform.slack-edge.com/img/default_application_icon.png",
+                ts: 123456789
+        ]
+]
+def failNotifySlack(text, channel, attachments) {
+    try {
+        def slackURL = 'https://hooks.slack.com/services/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'
+        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
 
+        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
+
+        cmd.execute().with {
+            def output = new StringWriter()
+            def error = new StringWriter()
+            //wait for process ended and catch stderr and stdout.
+            it.waitForProcessOutput(output, error)
+            //check there is no error
+            manager.listener.logger.println("error=$error")
+            manager.listener.logger.println("output=$output")
+            manager.listener.logger.println("code=${it.exitValue()}")
+
+        }
+
+    } catch (e) {
+        manager.listener.logger.println("failNotifySlack() = ${e}")
+        throw e
+    } finally {}
+}
 def appVersion() {
     try {
         def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
@@ -95,31 +144,6 @@ def notifySlack(text, channel, blocks) {
     } finally {}
 }
 
-def failNotifySlack(text, channel, attachments) {
-    try {
-        def slackURL = 'https://hooks.slack.com/services/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'
-        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
-        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
-
-        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
-
-        cmd.execute().with {
-            def output = new StringWriter()
-            def error = new StringWriter()
-            //wait for process ended and catch stderr and stdout.
-            it.waitForProcessOutput(output, error)
-            //check there is no error
-            manager.listener.logger.println("error=$error")
-            manager.listener.logger.println("output=$output")
-            manager.listener.logger.println("code=${it.exitValue()}")
-
-        }
-
-    } catch (e) {
-        manager.listener.logger.println("failNotifySlack() = ${e}")
-        throw e
-    } finally {}
-}
 
 
 def getGitAuthor = {
@@ -205,31 +229,6 @@ def getBuildResult(){
         ["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}` \n"]],
 
-]
-@Field def failErrorNotification = [
-        [
-                fallback: "Plain-text summary of the attachment.",
-                color: "#2eb886",
-                pretext: "Optional text that appears above the attachment block",
-                author_name: "Bobby Tables",
-                author_link: "http://flickr.com/bobby/",
-                author_icon: "http://flickr.com/icons/bobby.jpg",
-                title: "Slack API Documentation",
-                title_link: "https://api.slack.com/",
-                text: "Optional text that appears within the attachment",
-                fields: [
-                        [
-                                title: "Priority",
-                                value: "High",
-                                short: false
-                        ]
-                ],
-                image_url: "http://my-website.com/path/to/image.jpg",
-                thumb_url: "http://example.com/path/to/thumb.png",
-                footer: "Slack API",
-                footer_icon: "https://platform.slack-edge.com/img/default_application_icon.png",
-                ts: 123456789
-        ]
 ]
 
 
