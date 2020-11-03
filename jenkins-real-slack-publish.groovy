@@ -16,8 +16,12 @@ def appVersion() {
             manager.listener.logger.println("error() =${error}")
             manager.listener.logger.println("code=${it.exitValue()}")
             //값에 엔터가 들어가 있어서 제거
-            return "$output".replaceAll("\n", "")
-
+            if(error ==0){
+                return "$output".replaceAll("\n", "")
+            }else{
+                throw Exception()
+            }
+            
         }
     }catch(e){
         manager.listener.logger.println("error =${e}")
@@ -36,7 +40,6 @@ def notifySlack(text, channel, blocks) {
         def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, blocks: blocks])
 
         def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
-        currentBuild.result = 'FAILURE'
         manager.listener.logger.println("cmd=$cmd")
 
         cmd.execute().with {
@@ -53,12 +56,8 @@ def notifySlack(text, channel, blocks) {
 
     } catch (e) {
         manager.listener.logger.println("kkkkkk() =${e}")
-        manager.currentBuild.result = 'ABORTED'
-        error('Stopping early…')
         throw e
-    } finally {
-       // currentBuild.result = 'FAILURE'
-    }
+    } finally {}
 }
 
 def getGitAuthor = {
@@ -145,6 +144,32 @@ def failNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}` \n"]],
 
 ]
+def failNotifySlack(text, channel, attachments) {
+    try {
+        def slackURL = 'https://hooks.slack.com/services/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'
+        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
+
+        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
+
+        cmd.execute().with {
+            def output = new StringWriter()
+            def error = new StringWriter()
+            //wait for process ended and catch stderr and stdout.
+            it.waitForProcessOutput(output, error)
+            //check there is no error
+            manager.listener.logger.println("error=$error")
+            manager.listener.logger.println("output=$output")
+            manager.listener.logger.println("code=${it.exitValue()}")
+
+        }
+
+    } catch (e) {
+        manager.listener.logger.println("failNotifySlack() = ${e}")
+        throw e
+    } finally {}
+}
+
 try {
     def result= "${getBuildResult()}"
     if(result == "SUCCESS"){
@@ -155,25 +180,17 @@ try {
 
 }  catch (hudson.AbortException ae) {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
-    //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
-    manager.listener.logger.println("kkkkkk() =${e}")
+    failNotifySlack("Real 빌드 실패",slackNotificationChannel,[])
     Thread.getAllStackTraces().keySet().each() {
         t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
     }
 
-//    Jenkins.instance.getItemByFullName("${getJobName()}"+"/${getJobNumbers()}")
-//            .getBuildByNumber(getJobNumbers())
-//            .finish(hudson.model.Result.ABORTED, ae);
 } catch (e) {
     manager.listener.logger.println "[Fail StackTrace]: ${e}"
-    //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
-
+    failNotifySlack("Real 빌드 실패",slackNotificationChannel,[])
     Thread.getAllStackTraces().keySet().each() {
         t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
     }
-//    Jenkins.instance.getItemByFullName("${getJobName()}"+"/${getJobNumbers()}")
-//            .getBuildByNumber(getJobNumbers())
-//            .finish(hudson.model.Result.ABORTED, e);
 
 }
 
