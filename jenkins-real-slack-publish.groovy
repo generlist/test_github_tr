@@ -47,11 +47,13 @@ def notifySlack(text, channel, blocks) {
 
 }
 
-notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, [
-["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LineTV 개발 신현붕 입니다."]],
-["type": "section", "text": ["type": "mrkdwn", "text": "LineTV Android ${appVersion()} 배포 공유 드립니다."]],
-["type": "section", "text": ["type": "mrkdwn", "text": ":ghost: [주요 개발 내용] 은 <https://wiki.navercorp.com/display/videocell/LineTV${appVersion()} |주요 개발 내용> 를 참조 부탁 드립니다."]],
-["type": "divider"], ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/real/latest|리얼 다운로드>*"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/super-admin/latest|수퍼어드민 다운로드>*"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/hms/latest|앱 갤러리용 다운로드>*"]]
-])
+def successNotification = [
+        ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LineTV 개발 신현붕 입니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "LineTV Android ${appVersion()} 배포 공유 드립니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": ":ghost: [주요 개발 내용] 은 <https://wiki.navercorp.com/display/videocell/LineTV${appVersion()} |주요 개발 내용> 를 참조 부탁 드립니다."]],
+        ["type": "divider"], ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/real/latest|리얼 다운로드>*"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/super-admin/latest|수퍼어드민 다운로드>*"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/hms/latest|앱 갤러리용 다운로드>*"]]
+]
+
+notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
