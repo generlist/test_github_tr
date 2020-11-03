@@ -203,39 +203,31 @@ def failNotifySlack(text, channel, attachments) {
 //        ["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}` \n"]],
 //
 //]
-//@Field def failErrorNotification =[
-//       // [title_link: "*<${getBuildUrl()}|Build정보 바로 가기>*",color: "danger"]
-//       [
-//               title: "kkkkk, build #ssssss",
-//               title_link: "kkkkk",
-//               color: "danger",
-//               text: "eeeee",
-//               "mrkdwn_in": ["fields"],
-//               fields: [
-//                       [
-//                               title: "Branch",
-//                               value: "dddd",
-//                               short: true
-//                       ],
-//                       [
-//                               title: "Test Results",
-//                               value: "cccc",
-//                               short: true
-//                       ],
-//                       [
-//                               title: "Last Commit",
-//                               value: "bbbbb",
-//                               short: false
-//                       ]
-//               ]
-//       ],
-//       [
-//               title: "Failed Tests",
-//               color: "danger",
-//               text: "aaaaa",
-//               "mrkdwn_in": ["text"],
-//       ]
-//]
+@Field def failErrorNotification = [
+        [
+                fallback: "Plain-text summary of the attachment.",
+                color: "#2eb886",
+                pretext: "Optional text that appears above the attachment block",
+                author_name: "Bobby Tables",
+                author_link: "http://flickr.com/bobby/",
+                author_icon: "http://flickr.com/icons/bobby.jpg",
+                title: "Slack API Documentation",
+                title_link: "https://api.slack.com/",
+                text: "Optional text that appears within the attachment",
+                fields: [
+                        [
+                                title: "Priority",
+                                value: "High",
+                                short: false
+                        ]
+                ],
+                image_url: "http://my-website.com/path/to/image.jpg",
+                thumb_url: "http://example.com/path/to/thumb.png",
+                footer: "Slack API",
+                footer_icon: "https://platform.slack-edge.com/img/default_application_icon.png",
+                ts: 123456789
+        ]
+]
 //
 //
 //try {
@@ -262,29 +254,5 @@ def failNotifySlack(text, channel, attachments) {
 //
 //}
 
-failNotifySlack("Real 빌드 실패 appVersion() ",slackNotificationChannel,    [
-        [
-            fallback: "Plain-text summary of the attachment.",
-            color: "#2eb886",
-            pretext: "Optional text that appears above the attachment block",
-            author_name: "Bobby Tables",
-            author_link: "http://flickr.com/bobby/",
-            author_icon: "http://flickr.com/icons/bobby.jpg",
-            title: "Slack API Documentation",
-            title_link: "https://api.slack.com/",
-            text: "Optional text that appears within the attachment",
-            fields: [
-                [
-                    title: "Priority",
-                    value: "High",
-                    short: false
-                ]
-        ],
-            image_url: "http://my-website.com/path/to/image.jpg",
-            thumb_url: "http://example.com/path/to/thumb.png",
-            footer: "Slack API",
-            footer_icon: "https://platform.slack-edge.com/img/default_application_icon.png",
-            ts: 123456789
-        ]
-])
+failNotifySlack("Real 빌드 실패 appVersion() ",slackNotificationChannel, failErrorNotification)
 
