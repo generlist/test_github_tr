@@ -6,7 +6,7 @@ import groovy.transform.Field
 @Field final String slackNotificationChannel = 'android-app-release'
 @Field final String slackURL = 'https://hooks.slack.com/services/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'
 @Field final String jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
-@Field final String failTitle = 'LINE TV Real TV'
+@Field final String failTitle = 'LINE TV Real TV 빌드 실패'
 
 
 
@@ -83,10 +83,12 @@ def getBuildResult(){
     manager.listener.logger.println "Build Result is: ${result}"
     return result
 }
-def appVersion() {
+def getAppVersion() {
     try {
-        def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
-        def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
+       // def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
+        //def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
+        def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
+        def versionNameCmd = ['/bin/sh', '-c', "cd  ${workspacePath} &&  ./gradlew -q printVersion"]
 
         manager.listener.logger.println("workspacePath=$workspacePath")
         versionNameCmd.execute().with {
@@ -105,8 +107,8 @@ def appVersion() {
 
         }
     }catch(e){
-        manager.listener.logger.println("appVersion() error = ${e}")
-        failNotifySlack("${failTitle} appVersion() " ,slackNotificationChannel, failErrorNotification)
+        manager.listener.logger.println("getAppVersion() error = ${e}")
+        failNotifySlack("${failTitle} getAppVersion() " ,slackNotificationChannel, failErrorNotification)
         Thread.getAllStackTraces().keySet().each() {
             t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
         }
@@ -116,15 +118,15 @@ def appVersion() {
 }
 @Field def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": ":ghost: 안녕하세요. LINE TV 개발 신현붕 입니다."]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "LINE TV Android TV *${appVersion()}* 배포 공유 드립니다."]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": ":tv: 자세한 사항은 *<https://wiki.navercorp.com/display/videocell/AOS-TV-${appVersion()}-release|주요 개발 내용>* 를 참조 부탁 드립니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "LINE TV Android TV *${getAppVersion()}* 배포 공유 드립니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": ":tv: 자세한 사항은 *<https://wiki.navercorp.com/display/videocell/AOS-TV-${getAppVersion()}-release|주요 개발 내용>* 를 참조 부탁 드립니다."]],
         ["type": "divider"], ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/941/android/real/latest|리얼 다운로드>*"]]
 ]
 
 @Field def failNotification = [
 
         ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINE TV 개발 신현붕 입니다."]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP *${appVersion()}* 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP *${getAppVersion()}* 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
         ["type": "divider"],
         ["type": "section", "text": ["type": "mrkdwn", "text": "*[Build 정보]*"]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : `${getBuildResult()}` \n JobName : `${getJobName()}` \n Build Number : `#${getJobNumbers()}`"]],
@@ -198,9 +200,9 @@ def notifySlack(text, channel, blocks) {
 try {
     def result= "${getBuildResult()}"
     if(result == "SUCCESS"){
-        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+        notifySlack("LineTV ${getAppVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
     }else{
-        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+        notifySlack("LineTV ${getAppVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     }
 
 }  catch (hudson.AbortException ae) {
