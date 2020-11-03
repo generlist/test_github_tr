@@ -40,7 +40,7 @@ import groovy.transform.Field
     }
 
 }
-def getLastCommitMessage = {
+@Field def getLastCommitMessage = {
     def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
     def lastMessageCmd = ['/bin/sh', '-c', "cd  ${workspacePath} && git log -1 --pretty=%B"]
     lastMessageCmd.execute().with {
