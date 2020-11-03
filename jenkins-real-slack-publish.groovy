@@ -24,7 +24,7 @@ def appVersion() {
 
         }
     }catch(e){
-        manager.listener.logger.println("error =${e}")
+        manager.listener.logger.println("appVersion () error =${e}")
         throw e
     }
 
