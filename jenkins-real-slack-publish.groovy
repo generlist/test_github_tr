@@ -182,30 +182,37 @@ def getBuildResult(){
 @Field def failErrorNotification =[
        // [title_link: "*<${getBuildUrl()}|Build정보 바로 가기>*",color: "danger"]
        [
-               title: "88888888",
-               title_link: "${getBuildUrl()}",
+               title: "kkkkk, build #ssssss",
+               title_link: "kkkkk",
                color: "danger",
-               author_name: "shin",
-               text: "kkkkkkakaaka",
+               text: "eeeee",
+               "mrkdwn_in": ["fields"],
                fields: [
                        [
                                title: "Branch",
-                               value: "aaaa",
+                               value: "dddd",
                                short: true
                        ],
                        [
                                title: "Test Results",
-                               value: "bbbb",
+                               value: "cccc",
                                short: true
                        ],
                        [
                                title: "Last Commit",
-                               value: "cccc",
+                               value: "bbbbb",
                                short: false
                        ]
                ]
+       ],
+       [
+               title: "Failed Tests",
+               color: "danger",
+               text: "aaaaa",
+               "mrkdwn_in": ["text"],
        ]
 ]
+
 def failNotifySlack(text, channel, attachments) {
     try {
         def slackURL = 'https://hooks.slack.com/services/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'
