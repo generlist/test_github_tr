@@ -22,6 +22,7 @@ def appVersion() {
     }catch(e){
         manager.listener.logger.println("eeeee() =${e}")
         //currentBuild.result = 'FAILURE'
+        throw e
     }
 
 }
@@ -54,7 +55,7 @@ def notifySlack(text, channel, blocks) {
 
     } catch (e) {
         manager.listener.logger.println("kkkkkk() =${e}")
-      //  currentBuild.result = 'FAILURE'
+        manager.currentBuild.result = 'FAILURE'
         throw e
     } finally {
        // currentBuild.result = 'FAILURE'
