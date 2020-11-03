@@ -5,12 +5,13 @@ import groovy.transform.Field
 //앱 버전을 가져온다.
 
 @Field final String slackNotificationChannel = 'android-app-release'
+@Field final String slackURL = 'https://hooks.slack.com/services/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'
+@Field final String jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
 
 @Field def failErrorNotification = [
         [
                 fallback: "summary of the attachment.",
                 color: "#2eb886",
-                pretext: "Notification Error",
                 title: "Jenkins Build Error",
                 text: "*<${getBuildUrl()}|빌드 바로 가기>*",
                 "mrkdwn_in": ["text"],
@@ -135,8 +136,7 @@ def appVersion() {
 
 def failNotifySlack(text, channel, attachments) {
     try {
-        def slackURL = 'https://hooks.slack.com/services/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'
-        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+
         def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
 
         def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
@@ -163,8 +163,7 @@ def failNotifySlack(text, channel, attachments) {
 def notifySlack(text, channel, blocks) {
 
     try {
-        def slackURL = 'https://hooks.slack.com/services/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'
-        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+
         def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, blocks: blocks])
 
         def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
