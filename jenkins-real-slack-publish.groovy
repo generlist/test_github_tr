@@ -1,6 +1,6 @@
 
 import groovy.json.JsonOutput
-
+import jenkins.model.Jenkins
 //앱 버전을 가져온다.
 def appVersion() {
     try {
@@ -157,14 +157,14 @@ try {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
     //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     manager.listener.logger.println("kkkkkk() =${e}")
-    Jenkins.instance.getItemByFullName("JobName")
+    Jenkins.instance.getItemByFullName("${getJobName()}")
             .getBuildByNumber("${getJobBuildNumber()}")
             .finish(hudson.model.Result.ABORTED, new java.io.IOException("Aborting build"));
 } catch (e) {
     manager.listener.logger.println "[Fail StackTrace]: ${e}"
     //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     manager.listener.logger.println("kkkkkk() =${e}")
-    Jenkins.instance.getItemByFullName("JobName")
+    Jenkins.instance.getItemByFullName("${getJobName()}")
             .getBuildByNumber("${getJobBuildNumber()}")
             .finish(hudson.model.Result.ABORTED, new java.io.IOException("Aborting build"));
 
