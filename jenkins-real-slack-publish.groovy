@@ -128,17 +128,16 @@ def failNotification = [
 ["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build정보 바로 가기>*"]],
 ["type": "divider"],
 ["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}`"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}` \n"]],
 
 ]
 try {
    def result= "${getBuildResult()}"
-//    if(result == "SUCCESS"){
-//        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
-//    }else{
-//        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
-//    }
-    notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+    if(result == "SUCCESS"){
+        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+    }else{
+        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+    }
 
 }  catch (hudson.AbortException ae) {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
