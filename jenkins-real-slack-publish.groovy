@@ -5,7 +5,31 @@ import groovy.transform.Field
 //앱 버전을 가져온다.
 
 @Field final String slackNotificationChannel = 'android-app-release'
+def failNotifySlack(text, channel, attachments) {
+    try {
+        def slackURL = 'https://hooks.slack.com/services/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'
+        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
 
+        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
+
+        cmd.execute().with {
+            def output = new StringWriter()
+            def error = new StringWriter()
+            //wait for process ended and catch stderr and stdout.
+            it.waitForProcessOutput(output, error)
+            //check there is no error
+            manager.listener.logger.println("error=$error")
+            manager.listener.logger.println("output=$output")
+            manager.listener.logger.println("code=${it.exitValue()}")
+
+        }
+
+    } catch (e) {
+        manager.listener.logger.println("failNotifySlack() = ${e}")
+        throw e
+    } finally {}
+}
 
 def appVersion() {
     try {
@@ -213,31 +237,6 @@ def getBuildResult(){
        ]
 ]
 
-def failNotifySlack(text, channel, attachments) {
-    try {
-        def slackURL = 'https://hooks.slack.com/services/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'
-        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
-        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
-
-        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
-
-        cmd.execute().with {
-            def output = new StringWriter()
-            def error = new StringWriter()
-            //wait for process ended and catch stderr and stdout.
-            it.waitForProcessOutput(output, error)
-            //check there is no error
-            manager.listener.logger.println("error=$error")
-            manager.listener.logger.println("output=$output")
-            manager.listener.logger.println("code=${it.exitValue()}")
-
-        }
-
-    } catch (e) {
-        manager.listener.logger.println("failNotifySlack() = ${e}")
-        throw e
-    } finally {}
-}
 
 try {
     def result= "${getBuildResult()}"
