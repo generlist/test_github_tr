@@ -69,7 +69,27 @@ def getGitAuthor = {
     }
 
 }
-manager.listener.logger.println "And the result is: ${getGitAuthor()}"
+def getLastCommitMessage = {
+    def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
+    def lastMessageCmd = ['/bin/sh', '-c', "cd  ${workspacePath} && git log -1 --pretty=%B"]
+    lastMessageCmd.execute().with {
+        def outPut = new StringWriter()
+        def error = new StringWriter()
+        it.waitForProcessOutput(outPut, error)
+        manager.listener.logger.println "lastMessage: ${outPut}"
+    }
+
+}
+def jobName(){
+    def jobName = "${env.JOB_NAME}"
+
+    // Strip the branch name out of the job name (ex: "Job Name/branch1" -> "Job Name")
+    jobName = jobName.getAt(0..(jobName.indexOf('/') - 1))
+    manager.listener.logger.println "jobName: ${jobName}"
+}
+jobName()
+getGitAuthor()
+getLastCommitMessage()
 def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LineTV 개발 신현붕 입니다."]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "LineTV Android ${appVersion()} 배포 공유 드립니다."]],
