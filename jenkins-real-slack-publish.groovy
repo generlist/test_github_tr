@@ -125,10 +125,10 @@ def failNotification = [
 ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINETV 개발 신현붕 입니다."]],
 ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP ${appVersion()} 이 Build가 실패 하였습니다.:cry_face: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
 ["type": "divider"],
-["type": "section", "text": ["type": "mrkdwn", "text": "[세부정보]"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "build Result : ${getBuildResult()} , jobName : ${getJobName()}, build : #${getJobBuildNumber()}"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "*<${getBuildUrl()}|Build Url>*"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "author : ${getGitAuthor()} , branch : ${getBranch()} ,Last Commit : ${getLastCommitMessage()}"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "[세부정보]"]]
+//["type": "section", "text": ["type": "mrkdwn", "text": "build Result : ${getBuildResult()} , jobName : ${getJobName()}, build : #${getJobBuildNumber()}"]],
+//["type": "section", "text": ["type": "mrkdwn", "text": "*<${getBuildUrl()}|Build Url>*"]],
+//["type": "section", "text": ["type": "mrkdwn", "text": "author : ${getGitAuthor()} , branch : ${getBranch()} ,Last Commit : ${getLastCommitMessage()}"]],
 
 ]
 try {
