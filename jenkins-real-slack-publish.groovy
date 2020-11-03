@@ -130,11 +130,12 @@ def failNotification = [
         ]
 ]
 try {
-    if(getBuildResult() == 'SUCCESS'){
-        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
-    }else{
-        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
-    }
+//    if(getBuildResult() == 'SUCCESS'){
+//        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+//    }else{
+//        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+//    }
+    notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
 
 }  catch (hudson.AbortException ae) {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
