@@ -100,6 +100,8 @@ def getAppVersion() {
             //값에 엔터가 들어가 있어서 제거
             if(error =="0"){
                 return "$output".replaceAll("\n", "")
+            }else{
+                throw new Exception()
             }
 
         }
