@@ -101,7 +101,7 @@ def getJobName() {
     return jobName
 }
 
-def getJobBuildNumber(){
+def getJobNumbers(){
     def build = Thread.currentThread().executable
     def buildNumber = build.number
     manager.listener.logger.println "buildNumber: ${buildNumber}"
@@ -138,7 +138,7 @@ def failNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP *${appVersion()}* 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
         ["type": "divider"],
         ["type": "section", "text": ["type": "mrkdwn", "text": "*[Build 정보]*"]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : `${getBuildResult()}` \n JobName : `${getJobName()}` \n Build Number : `#${getJobBuildNumber()}`"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : `${getBuildResult()}` \n JobName : `${getJobName()}` \n Build Number : `#${getJobNumbers()}`"]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build정보 바로 가기>*"]],
         ["type": "divider"],
         ["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
@@ -158,14 +158,14 @@ try {
     //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     manager.listener.logger.println("kkkkkk() =${e}")
     Jenkins.instance.getItemByFullName("${this.getJobName()}")
-            .getBuildByNumber("${this.getJobBuildNumber()}")
+            .getBuildByNumber("${getJobNumbers()}")
             .finish(hudson.model.Result.ABORTED, new java.io.IOException("Aborting build"));
 } catch (e) {
     manager.listener.logger.println "[Fail StackTrace]: ${e}"
     //notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
     manager.listener.logger.println("kkkkkk() =${e}")
     Jenkins.instance.getItemByFullName("${this.getJobName()}")
-            .getBuildByNumber("${this.getJobBuildNumber()}")
+            .getBuildByNumber("${getJobNumbers()}")
             .finish(hudson.model.Result.ABORTED, new java.io.IOException("Aborting build"));
 
 }
