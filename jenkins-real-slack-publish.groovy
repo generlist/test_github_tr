@@ -59,7 +59,7 @@ def getGitAuthor = {
             def authorError = new StringWriter()
             it.waitForProcessOutput(author, authorError)
             manager.listener.logger.println "author: ${author}"
-            return author
+            return  "$author".replaceAll("\n","")
         }
 
     }
@@ -73,7 +73,7 @@ def getLastCommitMessage = {
         def error = new StringWriter()
         it.waitForProcessOutput(outPut, error)
         manager.listener.logger.println "lastMessage: ${outPut}"
-        return outPut
+        return "$outPut".replaceAll("\n","")
     }
 }
 
@@ -125,7 +125,7 @@ def failNotification = [
 ["type": "divider"],
 ["type": "section", "text": ["type": "mrkdwn", "text": "*[Build 정보]*"]],
 ["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : `${getBuildResult()}` \n JobName : `${getJobName()}` \n Build Number : `#${getJobBuildNumber()}`"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build Url 바로 가기>*"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build정보 바로 가기>*"]],
 ["type": "divider"],
 ["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
 ["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}`"]],
