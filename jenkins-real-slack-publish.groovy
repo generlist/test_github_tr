@@ -20,7 +20,8 @@ def appVersion() {
 
         }
     }catch(e){
-        currentBuild.result = 'FAILURE'
+        manager.listener.logger.println("eeeee() =${e}")
+        //currentBuild.result = 'FAILURE'
     }
 
 }
