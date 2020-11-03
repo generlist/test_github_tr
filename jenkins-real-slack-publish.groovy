@@ -119,18 +119,26 @@ def successNotification = [
 ]
 
 def failNotification = [
-        [title: ":cry_face: ${getJobName()}, build #${getJobBuildNumber()}", title_link: "${getBuildUrl()}", color: "danger", text: "${getBuildResult()}\n${getGitAuthor()}",
-         "mrkdwn_in": ["fields"],fields: [[title: "Branch", value: "${getBranch()}", short: true], [title: "Last Commit", value: "${getLastCommitMessage()}", short: false]]
-        ]
+//        [title: ":cry_face: ${getJobName()}, build #${getJobBuildNumber()}", title_link: "${getBuildUrl()}", color: "danger", text: "${getBuildResult()}\n${getGitAuthor()}",
+//         "mrkdwn_in": ["fields"],fields: [[title: "Branch", value: "${getBranch()}", short: true], [title: "Last Commit", value: "${getLastCommitMessage()}", short: false]]
+//        ]
+["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINETV 개발 신현붕 입니다."]],
+["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP ${appVersion()} 이 Build가 실패 하였습니다.:cry_face: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
+["type": "divider"],
+["type": "section", "text": ["type": "mrkdwn", "text": "[세부정보]"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "build Result : ${getBuildResult()} , jobName : ${getJobName()}, build : #${getJobBuildNumber()}"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "*<${getBuildUrl()}|Build Url>*"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "author : ${getGitAuthor()} , branch : ${getBranch()} ,Last Commit : ${getLastCommitMessage()}"]],
+
 ]
 try {
    def result= "${getBuildResult()}"
-    if(result == "SUCCESS"){
-        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
-    }else{
-        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
-    }
-//    notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+//    if(result == "SUCCESS"){
+//        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+//    }else{
+//        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+//    }
+    notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
 
 }  catch (hudson.AbortException ae) {
     manager.listener.logger.println "[Fail StackTrace]: ${ae}"
