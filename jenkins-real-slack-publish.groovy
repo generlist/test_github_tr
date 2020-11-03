@@ -124,27 +124,22 @@ def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/hms/latest|앱 갤러리용 다운로드>*"]]
 ]
 
-def failNotification =[
-        [
-                title: "${getJobName()}, build #${getJobBuildNumber()}",
-                title_link: "${getBuildUrl()}",
-                color: "danger",
-                text: "${getBuildResult()}\n${getGitAuthor()}",
-                "mrkdwn_in": ["fields"],
-                fields: [
-                        [
-                                title: "Branch",
-                                value: "${getBranch()}",
-                                short: true
-                        ],
-                        [
-                                title: "Last Commit",
-                                value: "${getLastCommitMessage()}",
-                                short: false
-                        ]
-                ]
+def failNotification = [
+        [title: ":cry_face: ${getJobName()}, build #${getJobBuildNumber()}", title_link: "${getBuildUrl()}", color: "danger", text: "${getBuildResult()}\n${getGitAuthor()}",
+         "mrkdwn_in": ["fields"],fields: [[title: "Branch", value: "${getBranch()}", short: true], [title: "Last Commit", value: "${getLastCommitMessage()}", short: false]]
         ]
-
 ]
+try {
+    if(getBuildResult() == 'SUCCESS'){
+        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+    }else{
+        notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+    }
 
-notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
+}  catch (hudson.AbortException ae) {
+    manager.listener.logger.println "[Fail StackTrace]: ${ae}"
+    notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
+} catch (e) {
+    manager.listener.logger.println "[Fail StackTrace]: ${e}"
+
+}
