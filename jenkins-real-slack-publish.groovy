@@ -5,6 +5,27 @@ import groovy.transform.Field
 //앱 버전을 가져온다.
 
 @Field final String slackNotificationChannel = 'android-app-release'
+
+@Field def successNotification = [
+        ["type": "section", "text": ["type": "mrkdwn", "text": ":ghost: 안녕하세요. LINE TV 개발 신현붕 입니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "LINE TV Android TV *${appVersion()}* 배포 공유 드립니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": ":tv: 자세한 사항은 *<https://wiki.navercorp.com/display/videocell/AOS-TV-${appVersion()}-release|주요 개발 내용>* 를 참조 부탁 드립니다."]],
+        ["type": "divider"], ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/941/android/real/latest|리얼 다운로드>*"]]
+]
+
+@Field def failNotification = [
+
+        ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINE TV 개발 신현붕 입니다."]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP *${appVersion()}* 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
+        ["type": "divider"],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "*[Build 정보]*"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : `${getBuildResult()}` \n JobName : `${getJobName()}` \n Build Number : `#${getJobNumbers()}`"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build정보 바로 가기>*"]],
+        ["type": "divider"],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
+        ["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}` \n"]],
+
+]
 @Field def failErrorNotification = [
         [
                 fallback: "Plain-text summary of the attachment.",
@@ -30,31 +51,7 @@ import groovy.transform.Field
                 ts: 123456789
         ]
 ]
-def failNotifySlack(text, channel, attachments) {
-    try {
-        def slackURL = 'https://hooks.slack.com/services/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'
-        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
-        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
 
-        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
-
-        cmd.execute().with {
-            def output = new StringWriter()
-            def error = new StringWriter()
-            //wait for process ended and catch stderr and stdout.
-            it.waitForProcessOutput(output, error)
-            //check there is no error
-            manager.listener.logger.println("error=$error")
-            manager.listener.logger.println("output=$output")
-            manager.listener.logger.println("code=${it.exitValue()}")
-
-        }
-
-    } catch (e) {
-        manager.listener.logger.println("failNotifySlack() = ${e}")
-        throw e
-    } finally {}
-}
 def appVersion() {
     try {
         def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
@@ -110,7 +107,31 @@ def appVersion() {
     }
 
 }
+def failNotifySlack(text, channel, attachments) {
+    try {
+        def slackURL = 'https://hooks.slack.com/services/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'
+        def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+        def payload = JsonOutput.toJson([text: text, channel: channel, username: "Jenkins", icon_url: jenkinsIcon, attachments: attachments])
 
+        def cmd = ['/bin/sh', '-c', "curl -X POST --data-urlencode \'payload=${payload}\' ${slackURL}"]
+
+        cmd.execute().with {
+            def output = new StringWriter()
+            def error = new StringWriter()
+            //wait for process ended and catch stderr and stdout.
+            it.waitForProcessOutput(output, error)
+            //check there is no error
+            manager.listener.logger.println("error=$error")
+            manager.listener.logger.println("output=$output")
+            manager.listener.logger.println("code=${it.exitValue()}")
+
+        }
+
+    } catch (e) {
+        manager.listener.logger.println("failNotifySlack() = ${e}")
+        throw e
+    } finally {}
+}
 
 def notifySlack(text, channel, blocks) {
 
@@ -210,26 +231,6 @@ def getBuildResult(){
     return result
 }
 
-@Field def successNotification = [
-        ["type": "section", "text": ["type": "mrkdwn", "text": ":ghost: 안녕하세요. LINE TV 개발 신현붕 입니다."]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "LINE TV Android TV *${appVersion()}* 배포 공유 드립니다."]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": ":tv: 자세한 사항은 *<https://wiki.navercorp.com/display/videocell/AOS-TV-${appVersion()}-release|주요 개발 내용>* 를 참조 부탁 드립니다."]],
-        ["type": "divider"], ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/941/android/real/latest|리얼 다운로드>*"]]
-]
-
-@Field def failNotification = [
-
-        ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINE TV 개발 신현붕 입니다."]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP *${appVersion()}* 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
-        ["type": "divider"],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "*[Build 정보]*"]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : `${getBuildResult()}` \n JobName : `${getJobName()}` \n Build Number : `#${getJobNumbers()}`"]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build정보 바로 가기>*"]],
-        ["type": "divider"],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
-        ["type": "section", "text": ["type": "mrkdwn", "text": "Author : `${getGitAuthor()}` \n Branch : `${getBranch()}` \n Last Commit : `${getLastCommitMessage()}` \n"]],
-
-]
 
 
 try {
