@@ -32,7 +32,7 @@ def appVersion() {
         manager.listener.logger.println("appVersion() error = ${e}")
         failNotifySlack("Real 빌드 실패 appVersion() ",slackNotificationChannel,     [
                 title: "88888888",
-                title_link: "*<${getBuildUrl()}|Build정보 바로 가기>*",
+                title_link: "${getBuildUrl()}",
                 color: "danger",
                 author_name: "shin",
                 text: "kkkkkkakaaka",
@@ -54,9 +54,9 @@ def appVersion() {
                         ]
                 ]
         ])
-        Thread.getAllStackTraces().keySet().each() {
-            t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
-        }
+//        Thread.getAllStackTraces().keySet().each() {
+//            t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
+//        }
         throw e
     }
 
@@ -183,7 +183,7 @@ def getBuildResult(){
        // [title_link: "*<${getBuildUrl()}|Build정보 바로 가기>*",color: "danger"]
        [
                title: "88888888",
-               title_link: "*<${getBuildUrl()}|Build정보 바로 가기>*",
+               title_link: "${getBuildUrl()}",
                color: "danger",
                author_name: "shin",
                text: "kkkkkkakaaka",
