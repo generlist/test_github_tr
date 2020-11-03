@@ -144,5 +144,6 @@ try {
     notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
 } catch (e) {
     manager.listener.logger.println "[Fail StackTrace]: ${e}"
+    notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, failNotification)
 
 }
