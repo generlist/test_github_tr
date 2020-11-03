@@ -9,7 +9,6 @@ import groovy.transform.Field
 @Field final String failTitle = 'LINE TV Real TV 빌드 실패'
 
 
-
 @Field def failErrorNotification = [
         [
                 fallback: "summary of the attachment.",
@@ -85,10 +84,10 @@ def getBuildResult(){
 }
 def getAppVersion() {
     try {
-       // def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
-        //def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
-        def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
-        def versionNameCmd = ['/bin/sh', '-c', "cd  ${workspacePath} &&  ./gradlew -q printVersion"]
+        def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
+        def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
+//        def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
+//        def versionNameCmd = ['/bin/sh', '-c', "cd  ${workspacePath} &&  ./gradlew -q printVersion"]
 
         manager.listener.logger.println("workspacePath=$workspacePath")
         versionNameCmd.execute().with {
@@ -99,9 +98,9 @@ def getAppVersion() {
             manager.listener.logger.println("error() =${error}")
             manager.listener.logger.println("code=${it.exitValue()}")
             //값에 엔터가 들어가 있어서 제거
-            //if(error ==0){
+            if(error =="0"){
                 return "$output".replaceAll("\n", "")
-            //}
+            }
 
         }
     }catch(e){
