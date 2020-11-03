@@ -43,6 +43,28 @@ def notifySlack(text, channel, blocks) {
         manager.listener.logger.println("code=${it.exitValue()}")
         def result = manager.build.result
         manager.listener.logger.println "And the result is: ${result}"
+        manager.listener.logger.println "And the result is: ${getGitAuthor()}"
+
+    }
+
+}
+def getGitAuthor = {
+
+    def cmd = ['/bin/sh', '-c', "git rev-parse HEAD"]
+    cmd.execute().with {
+        def output = new StringWriter()
+        def error = new StringWriter()
+        it.waitForProcessOutput(output, error)
+
+        def authorCmd = ['/bin/sh', '-c', "git --no-pager show -s --format='%an' ${output}"]
+        authorCmd.execute().with {
+            def author = new StringWriter()
+            def authorError = new StringWriter()
+            it.waitForProcessOutput(author, authorError)
+            manager.listener.logger.println "author: ${author}"
+        }
+
+
     }
 
 }
@@ -55,5 +77,33 @@ def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/super-admin/latest|수퍼어드민 다운로드>*"]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/hms/latest|앱 갤러리용 다운로드>*"]]
 ]
+
+//def failNotification =[
+//        [
+//                title: "${jobName}, build #${env.BUILD_NUMBER}",
+//                title_link: "${env.BUILD_URL}",
+//                color: "danger",
+//                text: "${buildStatus}\n${author}",
+//                "mrkdwn_in": ["fields"],
+//                fields: [
+//                        [
+//                                title: "Branch",
+//                                value: "${env.GIT_BRANCH}",
+//                                short: true
+//                        ],
+//                        [
+//                                title: "Test Results",
+//                                value: "${testSummary}",
+//                                short: true
+//                        ],
+//                        [
+//                                title: "Last Commit",
+//                                value: "${message}",
+//                                short: false
+//                        ]
+//                ]
+//        ]
+//
+//]
 
 notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
