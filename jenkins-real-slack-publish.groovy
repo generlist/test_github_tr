@@ -80,7 +80,7 @@ def getLastCommitMessage = {
     }
 
 }
-import jenkins.model.Jenkins
+
 def jobName(){
     def jobName = manager.build.getEnvVars()["JOB_NAME"]
     def build = Thread.currentThread().executable
@@ -93,7 +93,13 @@ def jobName(){
     //def job = Jenkins.instance.getItemByFullName("JOB_NAME");
     manager.listener.logger.println "jobName: ${jobName}"
 }
+def getBranch(){
+    def branch = manager.build.getEnvVars()["GIT_BRANCH"]
+    manager.listener.logger.println "branch: ${branch}"
+
+}
 jobName()
+getBranch()
 getGitAuthor()
 getLastCommitMessage()
 def successNotification = [
