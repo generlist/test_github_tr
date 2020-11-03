@@ -3,20 +3,24 @@ import groovy.json.JsonOutput
 
 //앱 버전을 가져온다.
 def appVersion() {
-    def workspacePath = manager.build.getEnvVars()["WORKSPACE"] +"/LineTV_BUILD"
-    def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
+    try {
+        def workspacePath = manager.build.getEnvVars()["WORKSPACE"] + "/LineTV_BUILD"
+        def versionNameCmd = ['/bin/sh', '-c', "export ANDROID_HOME=/home1/irteam/android_home && cd ${workspacePath} && ./gradlew -q printVersion"]
 
-    manager.listener.logger.println("workspacePath=$workspacePath")
-    versionNameCmd.execute().with {
-        def output = new StringWriter()
-        def error = new StringWriter()
+        manager.listener.logger.println("workspacePath=$workspacePath")
+        versionNameCmd.execute().with {
+            def output = new StringWriter()
+            def error = new StringWriter()
 
-        it.waitForProcessOutput(output, error)
-        manager.listener.logger.println("error() =${error}")
-        manager.listener.logger.println("code=${it.exitValue()}")
-        //값에 엔터가 들어가 있어서 제거
-        return "$output".replaceAll("\n","")
+            it.waitForProcessOutput(output, error)
+            manager.listener.logger.println("error() =${error}")
+            manager.listener.logger.println("code=${it.exitValue()}")
+            //값에 엔터가 들어가 있어서 제거
+            return "$output".replaceAll("\n", "")
 
+        }
+    }catch(e){
+        currentBuild.result = 'FAILURE'
     }
 
 }
