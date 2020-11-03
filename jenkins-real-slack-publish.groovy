@@ -82,7 +82,7 @@ def getJobName() {
     // Strip the branch name out of the job name (ex: "Job Name/branch1" -> "Job Name")
     //jobName = jobName.getAt(0..(jobName.indexOf('/') - 1))"
     manager.listener.logger.println "jobName: ${jobName}"
-    return "$jobName($buildNumber)"
+    return jobName
 }
 
 def getJobBuildNumber(){
