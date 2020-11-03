@@ -98,7 +98,7 @@ def getAppVersion() {
             manager.listener.logger.println("error() =${error}")
             manager.listener.logger.println("code=${it.exitValue()}")
             //값에 엔터가 들어가 있어서 제거
-            if("${error}" =="0"){
+            if("${it.exitValue()}" =="0"){
                 return "$output".replaceAll("\n", "")
             }else{
                 throw new Exception()
