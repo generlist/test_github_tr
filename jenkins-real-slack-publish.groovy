@@ -19,9 +19,9 @@ def appVersion() {
             if(error ==0){
                 return "$output".replaceAll("\n", "")
             }else{
-                throw Exception()
+                throw new Exception()
             }
-            
+
         }
     }catch(e){
         manager.listener.logger.println("error =${e}")
