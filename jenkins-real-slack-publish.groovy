@@ -48,8 +48,8 @@ def notifySlack(text, channel, blocks) {
 
 }
 def getGitAuthor = {
-
-    def cmd = ['/bin/sh', '-c', "git rev-parse HEAD"]
+    def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
+    def cmd = ['/bin/sh', '-c', "cd  ${workspacePath} && git rev-parse HEAD"]
     cmd.execute().with {
         def output = new StringWriter()
         def error = new StringWriter()
