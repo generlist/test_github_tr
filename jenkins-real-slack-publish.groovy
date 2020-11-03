@@ -108,13 +108,7 @@ def getBuildResult(){
     manager.listener.logger.println "Build Result is: ${result}"
     return result
 }
-getBuildResult()
-getJobName()
-getJobBuildNumber()
-getBranch()
-getGitAuthor()
-getBuildUrl()
-getLastCommitMessage()
+
 def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LineTV 개발 신현붕 입니다."]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "LineTV Android ${appVersion()} 배포 공유 드립니다."]],
