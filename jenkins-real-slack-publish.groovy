@@ -1,7 +1,6 @@
 import groovy.json.JsonOutput
 
 
-
 def appVersion() {
     def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
     def versionNameCmd = ['/bin/sh', '-c', "cd  ${workspacePath} &&  ./gradlew -q printVersion"]
@@ -41,12 +40,11 @@ def notifySlack(text, channel, blocks) {
         manager.listener.logger.println("error=$error")
         manager.listener.logger.println("output=$output")
         manager.listener.logger.println("code=${it.exitValue()}")
-        def result = manager.build.result
-        manager.listener.logger.println "And the result is: ${result}"
 
     }
 
 }
+
 def getGitAuthor = {
     def workspacePath = manager.build.getEnvVars()["WORKSPACE"]
     def cmd = ['/bin/sh', '-c', "cd  ${workspacePath} && git rev-parse HEAD"]
@@ -54,8 +52,6 @@ def getGitAuthor = {
         def output = new StringWriter()
         def error = new StringWriter()
         it.waitForProcessOutput(output, error)
-
-        manager.listener.logger.println "output1111: ${output}"
 
         def authorCmd = ['/bin/sh', '-c', "cd  ${workspacePath} && git --no-pager show -s --format='%an' ${output}"]
         authorCmd.execute().with {
@@ -81,24 +77,43 @@ def getLastCommitMessage = {
     }
 }
 
-def getJobNameBuildNumber(){
+def getJobName() {
     def jobName = manager.build.getEnvVars()["JOB_NAME"]
-    def build = Thread.currentThread().executable
-    def buildNumber = build.number
     // Strip the branch name out of the job name (ex: "Job Name/branch1" -> "Job Name")
-    //jobName = jobName.getAt(0..(jobName.indexOf('/') - 1))
-    manager.listener.logger.println "buildNumber: ${buildNumber}"
+    //jobName = jobName.getAt(0..(jobName.indexOf('/') - 1))"
     manager.listener.logger.println "jobName: ${jobName}"
     return "$jobName($buildNumber)"
 }
-def getBranch(){
+
+def getJobBuildNumber(){
+    def build = Thread.currentThread().executable
+    def buildNumber = build.number
+    manager.listener.logger.println "buildNumber: ${buildNumber}"
+    return buildNumber
+}
+
+def getBranch() {
     def branch = manager.build.getEnvVars()["GIT_BRANCH"]
     manager.listener.logger.println "branch: ${branch}"
     return branch
 }
-getJobNameBuildNumber()
+def getBuildUrl() {
+    def buildUrl = manager.build.getEnvVars()["BUILD_URL"]
+    manager.listener.logger.println "buildUrl: ${buildUrl}"
+    return buildUrl
+}
+
+def getBuildResult(){
+    def result = manager.build.result
+    manager.listener.logger.println "Build Result is: ${result}"
+    return result
+}
+getBuildResult()
+getJobName()
+getJobBuildNumber()
 getBranch()
 getGitAuthor()
+getBuildUrl()
 getLastCommitMessage()
 def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LineTV 개발 신현붕 입니다."]],
@@ -109,32 +124,27 @@ def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "*<https://ndeploy.navercorp.com/app/292/android/hms/latest|앱 갤러리용 다운로드>*"]]
 ]
 
-//def failNotification =[
-//        [
-//                title: "${jobName}, build #${env.BUILD_NUMBER}",
-//                title_link: "${env.BUILD_URL}",
-//                color: "danger",
-//                text: "${buildStatus}\n${author}",
-//                "mrkdwn_in": ["fields"],
-//                fields: [
-//                        [
-//                                title: "Branch",
-//                                value: "${env.GIT_BRANCH}",
-//                                short: true
-//                        ],
-//                        [
-//                                title: "Test Results",
-//                                value: "${testSummary}",
-//                                short: true
-//                        ],
-//                        [
-//                                title: "Last Commit",
-//                                value: "${message}",
-//                                short: false
-//                        ]
-//                ]
-//        ]
-//
-//]
+def failNotification =[
+        [
+                title: "${getJobName()}, build #${getJobBuildNumber()}",
+                title_link: "${getBuildUrl()}",
+                color: "danger",
+                text: "${getBuildResult()}\n${getGitAuthor()}",
+                "mrkdwn_in": ["fields"],
+                fields: [
+                        [
+                                title: "Branch",
+                                value: "${getBranch()}",
+                                short: true
+                        ],
+                        [
+                                title: "Last Commit",
+                                value: "${getLastCommitMessage()}",
+                                short: false
+                        ]
+                ]
+        ]
+
+]
 
 notifySlack("LineTV ${appVersion()} Real 배포 공유", slackNotificationChannel, successNotification)
