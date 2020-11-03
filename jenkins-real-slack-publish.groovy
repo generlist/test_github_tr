@@ -123,11 +123,12 @@ def failNotification = [
 ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LINETV 개발 신현붕 입니다."]],
 ["type": "section", "text": ["type": "mrkdwn", "text": "LINETV APP ${appVersion()} 이 Build가 실패 하였습니다.:allo-crying: 재 배포 하도록 하겠습니다.\n 잠시만 기다려 주세요!"]],
 ["type": "divider"],
-["type": "section", "text": ["type": "mrkdwn", "text": "**[Build 정보]"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : ${getBuildResult()} \n JobName : ${getJobName()} \n Build Number : #${getJobBuildNumber()}"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "*[Build 정보]*"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "Build Result : <span style=\"color:red\">*${getBuildResult()}*</span> \n JobName : *${getJobName()}* \n Build Number : *#${getJobBuildNumber()}*"]],
 ["type": "section", "text": ["type": "mrkdwn", "text": "\n *<${getBuildUrl()}|Build Url 바로 가기>*"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "**[Repository 정보]"]],
-["type": "section", "text": ["type": "mrkdwn", "text": "author : ${getGitAuthor()}\n branch : ${getBranch()} \n Last Commit : ${getLastCommitMessage()}"]],
+["type": "divider"],
+["type": "section", "text": ["type": "mrkdwn", "text": "*[Repository 정보]*"]],
+["type": "section", "text": ["type": "mrkdwn", "text": "Author : *${getGitAuthor()}* \n Branch : *${getBranch()}* \n Last Commit : *${getLastCommitMessage()}*"]],
 
 ]
 try {
