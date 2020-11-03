@@ -82,7 +82,7 @@ def getLastCommitMessage = {
 }
 import jenkins.model.Jenkins
 def jobName(){
-   // def jobName = manager.build.getEnvVars()["JOB_NAME"]
+    def jobName = manager.build.getEnvVars()["JOB_NAME"]
     def build = Thread.currentThread().executable
     def buildNumber = build.number
     // Strip the branch name out of the job name (ex: "Job Name/branch1" -> "Job Name")
@@ -90,8 +90,8 @@ def jobName(){
     manager.listener.logger.println "buildNumber: ${buildNumber}"
 
 
-    def job = Jenkins.instance.getItemByFullName("JOB_NAME");
-    manager.listener.logger.println "jobName: ${job}"
+    //def job = Jenkins.instance.getItemByFullName("JOB_NAME");
+    manager.listener.logger.println "jobName: ${jobName}"
 }
 jobName()
 getGitAuthor()
