@@ -43,7 +43,6 @@ def notifySlack(text, channel, blocks) {
         manager.listener.logger.println("code=${it.exitValue()}")
         def result = manager.build.result
         manager.listener.logger.println "And the result is: ${result}"
-        manager.listener.logger.println "And the result is: ${getGitAuthor()}"
 
     }
 
@@ -68,7 +67,7 @@ def getGitAuthor = {
     }
 
 }
-
+manager.listener.logger.println "And the result is: ${getGitAuthor()}"
 def successNotification = [
         ["type": "section", "text": ["type": "mrkdwn", "text": "안녕하세요. LineTV 개발 신현붕 입니다."]],
         ["type": "section", "text": ["type": "mrkdwn", "text": "LineTV Android ${appVersion()} 배포 공유 드립니다."]],
