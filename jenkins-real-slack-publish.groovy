@@ -25,6 +25,10 @@ def appVersion() {
         }
     }catch(e){
         manager.listener.logger.println("appVersion () error =${e}")
+        failNotifySlack("Real 빌드 실패",slackNotificationChannel,[])
+        Thread.getAllStackTraces().keySet().each() {
+            t -> if (t.getName()=="${ Thread.currentThread().name}" ) {   t.interrupt();  }
+        }
         throw e
     }
 
