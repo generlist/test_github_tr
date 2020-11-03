@@ -1,6 +1,9 @@
 
 import groovy.json.JsonOutput
 import jenkins.model.Jenkins
+
+def slackNotificationChannel = 'android-app-release'
+
 //앱 버전을 가져온다.
 def appVersion() {
     try {
@@ -34,7 +37,6 @@ def appVersion() {
 
 }
 
-def slackNotificationChannel = 'android-app-release'
 
 def notifySlack(text, channel, blocks) {
 
