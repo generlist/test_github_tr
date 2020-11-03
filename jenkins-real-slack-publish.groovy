@@ -63,8 +63,8 @@ def getGitAuthor = {
             def authorError = new StringWriter()
             it.waitForProcessOutput(author, authorError)
             manager.listener.logger.println "author: ${author}"
+            return author
         }
-
 
     }
 
@@ -77,28 +77,26 @@ def getLastCommitMessage = {
         def error = new StringWriter()
         it.waitForProcessOutput(outPut, error)
         manager.listener.logger.println "lastMessage: ${outPut}"
+        return outPut
     }
-
 }
 
-def jobName(){
+def getJobNameBuildNumber(){
     def jobName = manager.build.getEnvVars()["JOB_NAME"]
     def build = Thread.currentThread().executable
     def buildNumber = build.number
     // Strip the branch name out of the job name (ex: "Job Name/branch1" -> "Job Name")
     //jobName = jobName.getAt(0..(jobName.indexOf('/') - 1))
     manager.listener.logger.println "buildNumber: ${buildNumber}"
-
-
-    //def job = Jenkins.instance.getItemByFullName("JOB_NAME");
     manager.listener.logger.println "jobName: ${jobName}"
+    return "$jobName($buildNumber)"
 }
 def getBranch(){
     def branch = manager.build.getEnvVars()["GIT_BRANCH"]
     manager.listener.logger.println "branch: ${branch}"
-
+    return branch
 }
-jobName()
+getJobNameBuildNumber()
 getBranch()
 getGitAuthor()
 getLastCommitMessage()
