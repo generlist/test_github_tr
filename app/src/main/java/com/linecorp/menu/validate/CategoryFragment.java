@@ -27,6 +27,7 @@ public class CategoryFragment extends Fragment {
         this.categoryListModel =categoryListModel;
         this.dataModel = dataModel;
         this.deviceType = deviceType;
+        dddd
     }
 
     @Override
