@@ -2,7 +2,9 @@
 import groovy.json.JsonOutput
 import groovy.transform.Field
 
-
+/**
+ * slack noti test
+ */
 @Field final String slackNotificationChannel = 'android-app-release'
 @Field final String slackURL = 'https://hooks.slack.com/services/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'
 @Field final String jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
